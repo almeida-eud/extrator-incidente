@@ -16,27 +16,62 @@ _LOCK = Lock()
 
 def build_inline_prompt(texto: str) -> str:
     return f"""
-Extraia as seguintes informações do texto abaixo.
-Responda APENAS com JSON válido (sem comentários).
+Você é um sistema de extração estruturada de incidentes corporativos.
 
-Campos:
-- data_ocorrencia (YYYY-MM-DD HH:MM ou null)
-- local
-- tipo_incidente
-- impacto
+Sua tarefa é extrair informações objetivas do texto.
+Responda SOMENTE com JSON válido.
+Não escreva explicações, comentários ou texto fora do JSON.
 
-Se não houver dado, use null.
+Definições IMPORTANTES:
+
+- data_ocorrencia:
+  Se o texto disser "hoje" ou "ontem", resolva a data relativa (use a data atual do sistema).
+  Se houver só hora (ex.: "às 14h"), tente inferir o dia se houver contexto; senão retorne null.
+  formato YYYY-MM-DD HH:MM.
+
+
+- local:
+  Cidade, unidade, escritório ou local mencionado no texto.
+  Não invente informação.
+
+- tipo_incidente:
+  Classifique o evento principal em uma categoria curta e objetiva.
+  Use descrições como:
+    "Queda de energia"
+    "Instabilidade de rede"
+    "Erro no banco de dados"
+    "Falha em sistema"
+    "Problema em equipamento"
+  NÃO descreva o impacto aqui.
+  NÃO escreva frases longas.
+  Deve ser uma classificação resumida do problema técnico.
+
+- impacto:
+  Descreva de forma breve o efeito causado pelo incidente.
+  Foque no que foi afetado e por quanto tempo.
+  Exemplo:
+    "Usuários impedidos de acessar a rede por 1 hora"
+    "Processamento de pedidos interrompido por 3 horas"
+    "Sistema de faturamento indisponível por duas horas"
+  NÃO repita o tipo do incidente.
+  Foque na consequência.
+
+Regras:
+- Não invente informações.
+- Se um campo não estiver claro, use null.
+- Sempre retorne todas as chaves.
+
+Formato obrigatório:
+
+{{
+  "data_ocorrencia": "...",
+  "local": "...",
+  "tipo_incidente": "...",
+  "impacto": "..."
+}}
 
 Texto:
 \"\"\"{texto}\"\"\"
-
-Exemplo de saída:
-{{
-  "data_ocorrencia": "2025-08-12 14:00",
-  "local": "São Paulo",
-  "tipo_incidente": "Falha no servidor",
-  "impacto": "Sistema de faturamento indisponível por 2 horas"
-}}
 """
 
 @app.get("/extract")

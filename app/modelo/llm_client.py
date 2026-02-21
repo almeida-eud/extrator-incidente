@@ -1,7 +1,7 @@
 import requests
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL_NAME = "tinyllama"  # ajuste conforme modelo disponível localmente
+MODEL_NAME = "llama3.2:1b"  # ajuste conforme modelo disponível localmente
 
 def call_llm(prompt: str) -> str:
     """
@@ -13,7 +13,12 @@ def call_llm(prompt: str) -> str:
         json={
             "model": MODEL_NAME,
             "prompt": prompt,
-            "stream": False
+            "stream": False,
+            "options": {
+                "temperature": 0,
+                "num_predict": 512,
+                "top_p": 0.9
+        }
         },
         timeout=620
     )
