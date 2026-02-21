@@ -25,9 +25,28 @@ Não escreva explicações, comentários ou texto fora do JSON.
 Definições IMPORTANTES:
 
 - data_ocorrencia:
-  Se o texto disser "hoje" ou "ontem", resolva a data relativa (use a data atual do sistema).
-  Se houver só hora (ex.: "às 14h"), tente inferir o dia se houver contexto; senão retorne null.
-  formato YYYY-MM-DD HH:MM.
+
+Regras obrigatórias:
+
+1. O formato final deve ser exatamente:
+   YYYY-MM-DD HH:MM
+
+2. Se o texto contiver:
+   - "hoje" → use DATA ATUAL DO SISTEMA
+   - "ontem" → subtraia 1 dia da DATA ATUAL DO SISTEMA
+   - "anteontem" → subtraia 2 dias
+
+3. Se houver apenas hora (ex: "às 14h"):
+   - Combine com a data resolvida acima.
+   - Se não houver referência de dia, use null.
+
+4. Se houver data explícita (ex: 05/10/2023 ou 2023-10-05):
+   - Converta obrigatoriamente para formato YYYY-MM-DD
+   - Se houver hora, inclua HH:MM
+   - Se não houver hora, use 00:00
+
+5. Nunca retorne datas em outro formato.
+6. Nunca retorne texto fora do JSON.
 
 
 - local:
