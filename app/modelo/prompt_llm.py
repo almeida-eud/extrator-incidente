@@ -34,7 +34,7 @@ Regras obrigatórias:
 
 
 - local:
-  Cidade, unidade, escritório ou local mencionado no texto.
+  Cidade mencionada no texto.
   Não invente informação.
 
 - tipo_incidente:
