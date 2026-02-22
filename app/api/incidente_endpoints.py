@@ -5,6 +5,7 @@ from modelo.prompt_llm import build_prompt
 from typing import Optional, Dict, Any
 from modelo.llm_client import call_llm
 from dotenv import load_dotenv
+import pandas as pd
 from threading import Lock
 import json
 import re
