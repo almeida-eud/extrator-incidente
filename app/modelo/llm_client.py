@@ -1,6 +1,11 @@
 import requests
+import os
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
+OLLAMA_URL = os.getenv(
+    "OLLAMA_URL",
+    "http://localhost:11434/api/generate"  # padrão para rodar via python main.py
+)
+
 MODEL_NAME = "llama3.2:1b"  # ajuste conforme modelo disponível localmente
 
 def call_llm(prompt: str) -> str:
