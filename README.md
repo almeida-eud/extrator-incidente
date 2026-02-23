@@ -61,6 +61,31 @@ Ambiente mínimo recomendado:
 Sistema testado: Windows (WSL/Ubuntu-22.04).
 
 Observação: Se usar o LLM local: Ollama (ou outro endpoint compatível). Por padrão o cliente espera http://localhost:11434/api/generate.
+
+------------------------------------------------------------------------
+
+# Clonando o Projeto
+
+1. Baixe o projeto para o seu diretório
+
+- Link do projeto no Github:
+https://github.com/almeida-eud/extrator-incidente
+
+------------------------------------------------------------------------
+
+# Configuração (Adicionando o arquivo .env)
+
+1. **Crie um arquivo `.env` na pasta app/** do projeto com o seguinte conteúdo:
+
+API_KEY=12A3
+Observação: **Para fins do teste**, a senha foi adicionada acima.
+
+Descrição das variáveis:
+
+-   `API_KEY`: chave obrigatória para autenticar chamadas à API.
+
+Nunca versionar o arquivo `.env`.
+
 ------------------------------------------------------------------------
 
 # Estrutura do Projeto
@@ -90,28 +115,16 @@ EXTRATOR-INCIDENTE/
 ├── .gitignore
 ├── Dockerfile
 └── README.md
-------------------------------------------------------------------------
-
-# Configuração
-
-Crie um arquivo `.env` na pasta app/ do projeto com o seguinte conteúdo:
-
-API_KEY=12A3
-Observação: **Para fins do teste**, a senha foi adicionada acima.
-
-Descrição das variáveis:
-
--   `API_KEY`: chave obrigatória para autenticar chamadas à API.
-
-Nunca versionar o arquivo `.env`.
 
 ------------------------------------------------------------------------
 
 # Instalação do modelo LLM Ollama (llama3.2:1b)
 
+Observação: Certificar que está em ambiente Linux, se for Windows, WSL:Ubuntu-22.04.
+
 Também será necessário instalar o modelo LLM (llama3.2:1b) que é utilizado neste projeto. Esse modelo funciona localmente.
 
-No Terminal:
+No Terminal/WSL:Ubuntu-22.04:
 
 - Instalar o Ollama
 curl -fsSL https://ollama.com/install.sh | sh
@@ -144,7 +157,7 @@ pip install -r requirements.txt
 
 Terminal/WSL:Ubuntu-22.04: python main.py
 
-Observação: É necessário estar na pasta app/
+Observação: Para executar o main.py é necessário estar na pasta app/
 
 Acesse para ver os Endpoints da API:
 
@@ -154,13 +167,19 @@ http://localhost:8000/docs
 
 # Execução com Docker
 
-Build da imagem:
+Certifique que o docker está instalado adequadamente.
+
+Abra o prompt de comando, vá até a raiz onde baixou o projeto, e irá encontrar o arquivo Dockerfile.
+
+- No prompt, digite o comando para Build da imagem:
 
 docker build -t extrator-incidente .
 
-Executar container:
+- No prompt, digite o comando para Executar container:
 
-docker run --rm -p 8000:8000 --env-file .env extrator-incidente
+docker run -p 8000:8000 --env-file app/.env -e OLLAMA_URL=http://host.docker.internal:11434/api/generate extrator-incidente
+
+Observação: Quando a aplicação é utilizada no terminal python usamos OLLAMA_URL=http://localhost:11434/api/generate (llm_client.py), mas quando vamos rodar o container precisamos mudar para OLLAMA_URL=http://host.docker.internal:11434/api/generate extrator-incidente, pois o modelo não é instalado junto com a imagem, então temos que usar o modelo local.
 
 Acesse:
 
@@ -170,33 +189,45 @@ http://127.0.0.1:8000/docs
 
 # Endpoints da API
 
-## GET /extract
+- GET
 
-Armazena o texto normalizado em memória.
+Endpont para enviar a descrição do incidente.
 
-Exemplo:
+É necessário preencher dois campos:
+texto: Descrição do incidente.
+senha: Senha para utilizar o endpoint.
 
-curl -X GET "http://127.0.0.1:8000/extract?texto=Houve queda de energia
-hoje às 14h" -H "senha: SUA_API_KEY"
-
-------------------------------------------------------------------------
-
-## POST /extract
-
-Processa o texto e retorna JSON estruturado.
-
-Exemplo:
-
-curl -X POST "http://127.0.0.1:8000/extract" -H "Content-Type:
-application/json" -H "senha: SUA_API_KEY" -d '{"texto": "Hoje houve
-instabilidade de rede em Belém das 09h às 10h"}'
+Após preencher os campos é só executar.
 
 Resposta esperada:
 
-{ "data_ocorrencia": "2026-02-23 09:00", "local": "Belem",
-"tipo_incidente": "Instabilidade de rede", "impacto": "Usuários sem
-acesso por 1 hora" }
+```json
+{
+  "status": "received",
+  "texto": "ontem as 14h, no escritorio de sao paulo, houve uma falha no servidor principal que afetou o sistema de faturamento por 2 horas."
+}
+```
 
+- POST
+
+Endpont para processar a descrição do incidente e retorna JSON estruturado.
+
+É necessário preencher um campo:
+
+senha: Senha para utilizar o endpoint.
+
+Após preencher o campo é só executar.
+
+Resposta esperada:
+
+```json
+{
+  "data_ocorrencia": "2026-02-22 14:00",
+  "local": "Sao Paulo",
+  "tipo_incidente": "Falha em sistema",
+  "impacto": "Usuários impedidos de acessar a rede por 2 horas"
+}
+```
 ------------------------------------------------------------------------
 
 # Solução de Problemas
@@ -219,8 +250,4 @@ Porta já em uso - Mude a porta do Uvicorn ou do Docker.
 -   Restrinja acesso via firewall quando necessário.
 -   Monitore logs em ambiente produtivo.
 
-------------------------------------------------------------------------
 
-# Licença
-
-Definir licença do projeto (ex: MIT, Apache 2.0).
