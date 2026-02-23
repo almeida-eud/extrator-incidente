@@ -160,9 +160,11 @@ No Terminal/WSL:Ubuntu-22.04:
 
 Apois a instalação, ative o ambiente:
 
- `source bin/activate`
+ `source extrator-incidente/bin/activate`
 
 2.  **Instalar dependências**:
+
+**Observação**: Para executar o requirements.txt é necessário estar na pasta app/
 
  `pip install -r requirements.txt`
 
@@ -172,7 +174,7 @@ Apois a instalação, ative o ambiente:
 
  `python main.py`
 
-Acesse para ver os Endpoints da API:
+Acesse para ver a API:
 
 http://localhost:8000/docs
 
@@ -190,11 +192,11 @@ Abra o prompt de comando, vá até a raiz onde baixou o projeto, e irá encontra
 
 - No prompt, digite o comando para Executar container:
 
-`docker run -p 8000:8000 --env-file app/.env -e OLLAMA_URL=http://host.docker.internal:11434/api/generate extrator-incidente`
+`docker run -p 8000:8000 --env-file app/.env -e OLLAMA_URL=http://host.docker.internal:11434/api/generate -e API_KEY=12A3 extrator-incidente`
 
-**Observação**: Quando a aplicação é utilizada no terminal python usamos OLLAMA_URL=http://localhost:11434/api/generate (llm_client.py), mas quando vamos rodar o container precisamos mudar para OLLAMA_URL=http://host.docker.internal:11434/api/generate extrator-incidente, pois o modelo não é instalado junto com a imagem, então temos que usar o modelo local.
+**Observação**: Quando a aplicação é utilizada no terminal python usamos OLLAMA_URL=http://localhost:11434/api/generate (llm_client.py), mas quando vamos rodar o container precisamos mudar para OLLAMA_URL=http://host.docker.internal:11434/api/generate extrator-incidente, pois o modelo não é instalado junto com a imagem, então temos que usar o modelo local. Também precisa adicionar a senha da API (API_KEY=12A3), caso não tenha retirado o .env do diretório.
 
-Acesse:
+Acesse para ver a API:
 
 http://localhost:8000/docs
 
