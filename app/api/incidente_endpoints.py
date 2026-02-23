@@ -20,6 +20,7 @@ def verificar_api_key(senha: str = Header(...)):
         raise HTTPException(status_code=401, detail="API key inválida")
 
 # armazenamento simples em memória para o último texto recebido via GET
+# O ideal seria armazenar os dados em uma banco (ex: postgres)
 _LAST_TEXT: Optional[str] = None
 _LOCK = Lock()
 

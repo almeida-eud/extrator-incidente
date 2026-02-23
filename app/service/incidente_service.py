@@ -36,8 +36,10 @@ def _resolver_data_relativa(texto: str) -> Optional[str]:
 
 
 def processar_incidente(texto: str) -> Dict[str, Optional[str]]:
+    """
+    Orquestrador principal da extração do incidente.
+    """
 
-    # Resolve data relativa antes do LLM
     data_resolvida = _resolver_data_relativa(texto)
 
     prompt = construir_prompt(texto)

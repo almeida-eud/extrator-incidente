@@ -21,4 +21,5 @@ COPY app/ .
 
 EXPOSE 8000
 
+# Comando será executado automaticamente quando o container iniciar.
 CMD ["python", "main.py"]

@@ -3,10 +3,10 @@ import os
 
 OLLAMA_URL = os.getenv(
     "OLLAMA_URL",
-    "http://localhost:11434/api/generate"  # padrão para rodar via python main.py
+    "http://localhost:11434/api/generate"  # padrão para rodar via python main.py, por docker utilizar outra URL
 )
 
-MODEL_NAME = "llama3.2:1b"  # ajuste conforme modelo disponível localmente
+MODEL_NAME = "llama3.2:1b"
 
 def chamar_llm(prompt: str) -> str:
     """
@@ -29,6 +29,4 @@ def chamar_llm(prompt: str) -> str:
     )
     resp.raise_for_status()
     data = resp.json()
-    # dependendo da versão do Ollama a chave pode variar; ajustar se necessário
-    # aqui assumimos que a resposta em texto vem em data["response"]
     return data.get("response") or data.get("text") or ""
