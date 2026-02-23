@@ -22,8 +22,11 @@ Este repositório contém uma API em FastAPI (GET e POST) que recebe textos, env
 
 -   Visão Geral
 -   Requisitos
+-   Clonando o Projeto
 -   Estrutura do Projeto
 -   Configuração
+-   Estrutura do Projeto
+-   Instalação do modelo LLM Ollama
 -   Execução Local (sem Docker)
 -   Execução com Docker
 -   Endpoints da API
@@ -167,8 +170,6 @@ Apois a instalação, ative o ambiente:
 
 **Observação**: Para executar o main.py é necessário estar na pasta app/
 
-Terminal/WSL:Ubuntu-22.04: 
-
  `python main.py`
 
 Acesse para ver os Endpoints da API:
@@ -261,5 +262,3 @@ Porta já em uso - Mude a porta do Uvicorn ou do Docker.
 -   Utilize HTTPS em ambiente de produção.
 -   Restrinja acesso via firewall quando necessário.
 -   Monitore logs em ambiente produtivo.
-
-
