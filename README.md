@@ -149,21 +149,27 @@ No Terminal/WSL:Ubuntu-22.04:
 
 **Observação**: Certificar que está em ambiente Linux, se for Windows, WSL:Ubuntu-22.04.
 
-Terminal/WSL:Ubuntu-22.04: `python -m venv extrator-incidente`
+No Terminal/WSL:Ubuntu-22.04:
+
+Instalar o ambiente de desenvolvimento
+
+ `python3.11 -m venv extrator-incidente`
 
 Apois a instalação, ative o ambiente:
 
-Terminal/WSL:Ubuntu-22.04: `source bin/activate`
+ `source bin/activate`
 
 2.  **Instalar dependências**:
 
-`pip install -r requirements.txt`
+ `pip install -r requirements.txt`
 
 3.  **Executar aplicação**:
 
-Terminal/WSL:Ubuntu-22.04: `python main.py`
-
 **Observação**: Para executar o main.py é necessário estar na pasta app/
+
+Terminal/WSL:Ubuntu-22.04: 
+
+ `python main.py`
 
 Acesse para ver os Endpoints da API:
 
