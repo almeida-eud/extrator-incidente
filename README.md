@@ -1,14 +1,18 @@
-# Extrator de Incidentes
+# Extrator de Incidentes — README
 
-API para extração estruturada de informações de incidentes corporativos
-a partir de texto livre, utilizando FastAPI e integração com LLM local
-(via Ollama).
+Projeto: Extrator de Incidentes Corporativos
 
-A aplicação recebe uma descrição textual de um incidente e retorna um
-JSON estruturado contendo:
+Este repositório contém uma API em FastAPI (GET e POST) que recebe textos, envia um prompt para um LLM local (via Ollama) para extrair campos estruturados sobre um incidente e retorna um JSON com os campos:
 
-{ "data_ocorrencia": "...", "local": "...", "tipo_incidente": "...",
-"impacto": "..." }
+{
+  "data_ocorrencia": "...",
+  "local": "...",
+  "tipo_incidente": "...",
+  "impacto": "..."
+}
+
+Observação: o endpoint GET armazena em memória o último texto recebido; o POST usa o texto enviado no body ou, se não houver body, usa o último texto armazenado pelo GET.
+
 
 ------------------------------------------------------------------------
 
@@ -37,6 +41,7 @@ O sistema funciona da seguinte forma:
 
 A API exige autenticação via chave (`API_KEY`) enviada no header
 `senha`.
+Observação: Para fins do teste, **a senha está localizada no .env dentro da pasta app/**. Mas normalmente em projetos reais o .env não é disponibilizado no **Git**.
 
 ------------------------------------------------------------------------
 
