@@ -79,13 +79,13 @@ https://github.com/almeida-eud/extrator-incidente
 
 1. **Crie um arquivo `.env` na pasta app/** do projeto com o seguinte conteúdo:
 
-API_KEY=12A3
+- `API_KEY=12A3`
 
 **Observação**: **Para fins do teste**, a senha foi adicionada acima.
 
 Descrição da variável:
 
--   `API_KEY`: chave obrigatória para autenticar chamadas à API.
+- `API_KEY`: chave obrigatória para autenticar chamadas à API.
 
 Nunca versionar o arquivo `.env`.
 
@@ -157,7 +157,7 @@ No Terminal/WSL:Ubuntu-22.04:
 
  `python3.11 -m venv extrator-incidente`
 
-Apois a instalação, ative o ambiente:
+Após a instalação, ative o ambiente:
 
  `source extrator-incidente/bin/activate`
 
@@ -208,8 +208,9 @@ http://localhost:8000/docs
 Endpont para enviar a descrição do incidente.
 
 É necessário preencher dois campos:
-texto: Descrição do incidente.
-senha: Senha para utilizar o endpoint.
+
+- texto: Descrição do incidente.
+- senha: Senha para utilizar o endpoint.
 
 Após preencher os campos é só executar.
 
@@ -228,7 +229,7 @@ Endpont para processar a descrição do incidente e retorna JSON estruturado.
 
 É necessário preencher um campo:
 
-senha: Senha para utilizar o endpoint.
+- senha: Senha para utilizar o endpoint.
 
 Após preencher o campo é só executar.
 
@@ -258,31 +259,31 @@ Porta já em uso - Mude a porta do Uvicorn ou do Docker.
 
 # Evoluções Futuras
 
-1. Melhorar a segurança dos Endpoints
+1. **Melhorar a segurança dos Endpoints**
 
 No teste foi utilizado uma senha simples, mas em produção o ideal é usar soluções mais robustas como JWT ou OAuth
 
-2. Percistência dos dados
+2. **Percistência dos dados**
 
 Utilizei somente um armazenamento em memória neste teste. Mas o ideal é termos um banco de dados (ex: postgres) para deixar os dados estruturados, além de termos uma garantia para que se a API cair ainda teremos os dados salvos em banco. O que também ajuda a ter uma base de dados maior pensando no retraining
 
-3. Testes Automatizados
+3. **Testes Automatizados**
 
 Fazer alguns testes, como:
 
 - Unitários (pytest)
 - Testes de API
 
-4. Monitoramento
+4. **Monitoramento**
 
-Monitoramento de algumas métrica, como:
+Monitoramento de algumas métricas, como:
 
 - Latência média
 - Taxa de erro
 - Mudança no padrão textual
 - Uso de CPU / RAM (LLM consome muita memória)
 
-5. Retraining / Evolução do Modelo
+5. **Retraining / Evolução do Modelo**
 
 Criar um pipeline de retraining com:
 
@@ -290,7 +291,7 @@ Criar um pipeline de retraining com:
 - Armazenar em dataset incremental
 - Re-treinar periodicamente
 
-6. Escalabilida
+6. **Escalabilidade**
 
 O ideal, antes de começar a criar o projeto, seria estimar quantas requisições teremos por minuto. Somente conectar a API diretamente ao LLM provavelmente não será suficiente para suportar carga, pois o LLM é um componente pesado e pode se tornar rapidamente um problema.
 
@@ -302,4 +303,4 @@ Cliente (Texto) → Load Balancer (Distribuidor de Requisições) → API (FastA
 
 # Fim
 
-Isso é tudo!
+Isso é tudo! Obrigado!
