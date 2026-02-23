@@ -13,7 +13,7 @@ Este repositório contém uma API em FastAPI (GET e POST) que recebe textos, env
 }
 ```
 
-Observação: o endpoint GET armazena em memória o último texto recebido; o POST usa o texto enviado no body ou, se não houver body, usa o último texto armazenado pelo GET.
+**Observação**: o endpoint GET armazena em memória o último texto recebido; o POST usa o texto enviado no body ou, se não houver body, usa o último texto armazenado pelo GET.
 
 
 ------------------------------------------------------------------------
@@ -60,7 +60,7 @@ Ambiente mínimo recomendado:
 
 Sistema testado: Windows (WSL/Ubuntu-22.04).
 
-Observação: Se usar o LLM local: Ollama. Por padrão o cliente espera http://localhost:11434/api/generate.
+**Observação**: Se usar o LLM local: Ollama. Por padrão o cliente espera http://localhost:11434/api/generate.
 
 ------------------------------------------------------------------------
 
@@ -79,9 +79,9 @@ https://github.com/almeida-eud/extrator-incidente
 
 API_KEY=12A3
 
-Observação: **Para fins do teste**, a senha foi adicionada acima.
+**Observação**: **Para fins do teste**, a senha foi adicionada acima.
 
-Descrição das variáveis:
+Descrição da variável:
 
 -   `API_KEY`: chave obrigatória para autenticar chamadas à API.
 
@@ -123,44 +123,47 @@ EXTRATOR-INCIDENTE/
 
 # Instalação do modelo LLM Ollama (llama3.2:1b)
 
-Observação: Certificar que está em ambiente Linux, se for Windows, WSL:Ubuntu-22.04.
+**Observação**: Certificar que está em ambiente Linux, se for Windows, WSL:Ubuntu-22.04.
 
 Também será necessário instalar o modelo LLM (llama3.2:1b) que é utilizado neste projeto. Esse modelo funciona localmente.
 
 No Terminal/WSL:Ubuntu-22.04:
 
-- Instalar o Ollama
-curl -fsSL https://ollama.com/install.sh | sh
+- Instalar o Ollama:
 
-- Iniciar o serviço Ollama
-ollama serve
+`curl -fsSL https://ollama.com/install.sh | sh`
+
+- Iniciar o serviço Ollama:
+
+`ollama serve`
 
 - Baixar o modelo utilizado neste projeto
-ollama pull llama3.2:1b
+
+`ollama pull llama3.2:1b`
 
 ------------------------------------------------------------------------
 
 # Execução Local (sem Docker)
 
-1.  Criar ambiente virtual:
+1.  **Criar ambiente virtual**:
 
-Observação: Certificar que está em ambiente Linux, se for Windows, WSL:Ubuntu-22.04.
+**Observação**: Certificar que está em ambiente Linux, se for Windows, WSL:Ubuntu-22.04.
 
-Terminal/WSL:Ubuntu-22.04: python -m venv extrator-incidente
+Terminal/WSL:Ubuntu-22.04: `python -m venv extrator-incidente`
 
 Apois a instalação, ative o ambiente:
 
-Terminal/WSL:Ubuntu-22.04: source bin/activate
+Terminal/WSL:Ubuntu-22.04: `source bin/activate`
 
-2.  Instalar dependências:
+2.  **Instalar dependências**:
 
-pip install -r requirements.txt
+`pip install -r requirements.txt`
 
-3.  Executar aplicação:
+3.  **Executar aplicação**:
 
-Terminal/WSL:Ubuntu-22.04: python main.py
+Terminal/WSL:Ubuntu-22.04: `python main.py`
 
-Observação: Para executar o main.py é necessário estar na pasta app/
+**Observação**: Para executar o main.py é necessário estar na pasta app/
 
 Acesse para ver os Endpoints da API:
 
@@ -176,13 +179,13 @@ Abra o prompt de comando, vá até a raiz onde baixou o projeto, e irá encontra
 
 - No prompt, digite o comando para Build da imagem:
 
-docker build -t extrator-incidente .
+`docker build -t extrator-incidente .`
 
 - No prompt, digite o comando para Executar container:
 
-docker run -p 8000:8000 --env-file app/.env -e OLLAMA_URL=http://host.docker.internal:11434/api/generate extrator-incidente
+`docker run -p 8000:8000 --env-file app/.env -e OLLAMA_URL=http://host.docker.internal:11434/api/generate extrator-incidente`
 
-Observação: Quando a aplicação é utilizada no terminal python usamos OLLAMA_URL=http://localhost:11434/api/generate (llm_client.py), mas quando vamos rodar o container precisamos mudar para OLLAMA_URL=http://host.docker.internal:11434/api/generate extrator-incidente, pois o modelo não é instalado junto com a imagem, então temos que usar o modelo local.
+**Observação**: Quando a aplicação é utilizada no terminal python usamos OLLAMA_URL=http://localhost:11434/api/generate (llm_client.py), mas quando vamos rodar o container precisamos mudar para OLLAMA_URL=http://host.docker.internal:11434/api/generate extrator-incidente, pois o modelo não é instalado junto com a imagem, então temos que usar o modelo local.
 
 Acesse:
 
