@@ -1,4 +1,4 @@
-# Extrator de Incidentes — README
+# Extrator de Incidentes
 
 Projeto: Extrator de Incidentes Corporativos
 
@@ -145,13 +145,13 @@ No Terminal/WSL:Ubuntu-22.04:
 
 # Execução Local (sem Docker)
 
-1.  **Criar ambiente virtual**:
+**Criar ambiente virtual**:
 
 **Observação**: Certificar que está em ambiente Linux, se for Windows, WSL:Ubuntu-22.04.
 
 No Terminal/WSL:Ubuntu-22.04:
 
-Instalar o ambiente de desenvolvimento
+1. **Instalar o ambiente de desenvolvimento**
 
  `python3.11 -m venv extrator-incidente`
 
@@ -195,7 +195,7 @@ Abra o prompt de comando, vá até a raiz onde baixou o projeto, e irá encontra
 
 Acesse:
 
-http://127.0.0.1:8000/docs
+http://localhost:8000/docs
 
 ------------------------------------------------------------------------
 
