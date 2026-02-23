@@ -60,7 +60,7 @@ Ambiente mínimo recomendado:
 
 Sistema testado: Windows (WSL/Ubuntu-22.04).
 
-Observação: Se usar o LLM local: Ollama (ou outro endpoint compatível). Por padrão o cliente espera http://localhost:11434/api/generate.
+Observação: Se usar o LLM local: Ollama. Por padrão o cliente espera http://localhost:11434/api/generate.
 
 ------------------------------------------------------------------------
 
@@ -78,6 +78,7 @@ https://github.com/almeida-eud/extrator-incidente
 1. **Crie um arquivo `.env` na pasta app/** do projeto com o seguinte conteúdo:
 
 API_KEY=12A3
+
 Observação: **Para fins do teste**, a senha foi adicionada acima.
 
 Descrição das variáveis:
@@ -90,7 +91,7 @@ Nunca versionar o arquivo `.env`.
 
 # Estrutura do Projeto
 
-EXTRATOR-INCIDENTE/
+<pre> ```text EXTRATOR-INCIDENTE/
 │
 ├── app/
 │   ├── api/
@@ -114,7 +115,7 @@ EXTRATOR-INCIDENTE/
 ├── .dockerignore
 ├── .gitignore
 ├── Dockerfile
-└── README.md
+└── README.md ``` </pre>
 
 ------------------------------------------------------------------------
 
