@@ -30,8 +30,7 @@ Este repositório contém uma API em FastAPI (GET e POST) que recebe textos, env
 -   Execução Local (sem Docker)
 -   Execução com Docker
 -   Endpoints da API
--   Solução de Problemas
--   Boas Práticas
+-   Evoluções Futuras
 
 ------------------------------------------------------------------------
 
@@ -257,10 +256,50 @@ Porta já em uso - Mude a porta do Uvicorn ou do Docker.
 
 ------------------------------------------------------------------------
 
-# Boas Práticas
+# Evoluções Futuras
 
--   Utilize chave forte para `API_KEY`.
--   Não exponha o serviço LLM diretamente.
--   Utilize HTTPS em ambiente de produção.
--   Restrinja acesso via firewall quando necessário.
--   Monitore logs em ambiente produtivo.
+1. Melhorar a segurança dos Endpoints
+
+No teste foi utilizado uma senha simples, mas em produção o ideal é usar soluções mais robustas como JWT ou OAuth
+
+2. Percistência dos dados
+
+Utilizei somente um armazenamento em memória neste teste. Mas o ideal é termos um banco de dados (ex: postgres) para deixar os dados estruturados, além de termos uma garantia para que se a API cair ainda teremos os dados salvos em banco. O que também ajuda a ter uma base de dados maior pensando no retraining
+
+3. Testes Automatizados
+
+Fazer alguns testes, como:
+
+- Unitários (pytest)
+- Testes de API
+
+4. Monitoramento
+
+Monitoramento de algumas métrica, como:
+
+- Latência média
+- Taxa de erro
+- Mudança no padrão textual
+- Uso de CPU / RAM (LLM consome muita memória)
+
+5. Retraining / Evolução do Modelo
+
+Criar um pipeline de retraining com:
+
+- Coleta de exemplos errados automaticamente
+- Armazenar em dataset incremental
+- Re-treinar periodicamente
+
+6. Escalabilida
+
+O ideal, antes de começar a criar o projeto, seria estimar quantas requisições teremos por minuto. Somente conectar a API diretamente ao LLM provavelmente não será suficiente para suportar carga, pois o LLM é um componente pesado e pode se tornar rapidamente um problema.
+
+Então, uma arquitetura mais adequada seria utilizar processamento assíncrono com fila de tarefas. Assim, teríamos, de forma simplificada:
+
+Cliente (Texto) → Load Balancer (Distribuidor de Requisições) → API (FastAPI – stateless) → RabbitMQ (Fila de Tarefas) → Worker (Processador de Tarefas) → LLM (Ollama) → Banco de Dados (armazenamento do resultado)
+
+------------------------------------------------------------------------
+
+# Fim
+
+Isso é tudo!
