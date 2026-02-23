@@ -4,9 +4,9 @@ from dotenv import load_dotenv
 from threading import Lock
 import os
 
-from pre_processamento.processamento import normalize_text
-from pre_processamento.schema import IncidentResponse
-from service.incidente_service import process_incident
+from pre_processamento.processamento import normalizar_texto
+from pre_processamento.schema import RespostaIncidente
+from service.incidente_service import processar_incidente
 
 
 app = FastAPI(title="API de Extrator de Incidente")
@@ -15,7 +15,7 @@ app = FastAPI(title="API de Extrator de Incidente")
 load_dotenv()
 API_KEY = os.getenv("API_KEY")
 
-def verify_api_key(senha: str = Header(...)):
+def verificar_api_key(senha: str = Header(...)):
     if senha != API_KEY:
         raise HTTPException(status_code=401, detail="API key inválida")
 
@@ -25,8 +25,11 @@ _LOCK = Lock()
 
 
 @app.get("/extract",
-         dependencies=[Depends(verify_api_key)])
-def extract_get(texto: Optional[str] = Query(None, description="Descrição do incidente")):
+         dependencies=[Depends(verificar_api_key)])
+def enviar_descricao(texto: Optional[str] = Query(None, description="Descrição do incidente")):
+    """
+    Endpont para enviar a descrição do incidente.
+    """
 
     if not texto:
         raise HTTPException(
@@ -34,7 +37,7 @@ def extract_get(texto: Optional[str] = Query(None, description="Descrição do i
             detail="Parâmetro 'texto' é obrigatório no GET para armazenar o texto."
         )
 
-    texto_norm = normalize_text(texto)
+    texto_norm = normalizar_texto(texto)
 
     with _LOCK:
         global _LAST_TEXT
@@ -44,16 +47,19 @@ def extract_get(texto: Optional[str] = Query(None, description="Descrição do i
 
 
 @app.post("/extract",
-          response_model=IncidentResponse,
-          dependencies=[Depends(verify_api_key)])
-def extract_post(payload: Optional[Dict[str, Any]] = Body(None)):
+          response_model=RespostaIncidente,
+          dependencies=[Depends(verificar_api_key)])
+def processar_descricao(payload: Optional[Dict[str, Any]] = Body(None)):
+    """
+    Endpont para processar a descrição do incidente.
+    """
 
     texto_body: Optional[str] = None
     if payload and isinstance(payload, dict):
         texto_body = payload.get("texto")
 
     if texto_body:
-        texto = normalize_text(texto_body)
+        texto = normalizar_texto(texto_body)
     else:
         with _LOCK:
             texto = _LAST_TEXT
@@ -65,7 +71,7 @@ def extract_post(payload: Optional[Dict[str, Any]] = Body(None)):
         )
 
     try:
-        result = process_incident(texto)
+        result = processar_incidente(texto)
     except Exception as e:
         raise HTTPException(status_code=502, detail=str(e))
 

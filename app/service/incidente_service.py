@@ -1,12 +1,12 @@
-from modelo.prompt_llm import build_prompt
-from modelo.llm_client import call_llm
+from modelo.prompt_llm import construir_prompt
+from datetime import datetime, timedelta
+from modelo.llm_client import chamar_llm
 from typing import Optional, Dict
 import json
 import re
-from datetime import datetime, timedelta
 
 
-def _resolve_relative_date(texto: str) -> Optional[str]:
+def _resolver_data_relativa(texto: str) -> Optional[str]:
     """
     Resolve 'hoje' e 'ontem' de forma determinística.
     Retorna string no formato YYYY-MM-DD HH:MM ou None.
@@ -35,15 +35,15 @@ def _resolve_relative_date(texto: str) -> Optional[str]:
     return None
 
 
-def process_incident(texto: str) -> Dict[str, Optional[str]]:
+def processar_incidente(texto: str) -> Dict[str, Optional[str]]:
 
-    # 1️⃣ Resolve data relativa antes do LLM
-    data_resolvida = _resolve_relative_date(texto)
+    # Resolve data relativa antes do LLM
+    data_resolvida = _resolver_data_relativa(texto)
 
-    prompt = build_prompt(texto)
+    prompt = construir_prompt(texto)
 
     try:
-        raw = call_llm(prompt)
+        raw = chamar_llm(prompt)
     except Exception as e:
         raise Exception(f"Erro ao chamar LLM local: {e}")
 
@@ -66,7 +66,7 @@ def process_incident(texto: str) -> Dict[str, Optional[str]]:
         "impacto": parsed.get("impacto"),
     }
 
-    # 2️⃣ Se resolvemos hoje/ontem, sobrescreve a data do modelo
+    # Se resolvemos hoje/ontem, sobrescreve a data do modelo
     if data_resolvida:
         result["data_ocorrencia"] = data_resolvida
 

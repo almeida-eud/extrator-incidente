@@ -1,4 +1,4 @@
-def build_prompt(texto: str) -> str:
+def construir_prompt(texto: str) -> str:
     return f"""
 Você é um sistema de extração estruturada de incidentes corporativos.
 

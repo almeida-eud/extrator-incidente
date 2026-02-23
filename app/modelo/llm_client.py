@@ -8,7 +8,7 @@ OLLAMA_URL = os.getenv(
 
 MODEL_NAME = "llama3.2:1b"  # ajuste conforme modelo disponível localmente
 
-def call_llm(prompt: str) -> str:
+def chamar_llm(prompt: str) -> str:
     """
     Chama o Ollama local e retorna o texto bruto da resposta.
     Lança requests.HTTPError em caso de falha.
