@@ -2,3 +2,4 @@
 /app/modelo/__pycache__
 /app/pre_processamento/__pycache__
 /app/service/__pycache__
+app/.env

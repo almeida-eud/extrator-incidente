@@ -4,12 +4,14 @@ Projeto: Extrator de Incidentes Corporativos
 
 Este repositório contém uma API em FastAPI (GET e POST) que recebe textos, envia um prompt para um LLM local (via Ollama) para extrair campos estruturados sobre um incidente e retorna um JSON com os campos:
 
+```json
 {
   "data_ocorrencia": "...",
   "local": "...",
   "tipo_incidente": "...",
   "impacto": "..."
 }
+```
 
 Observação: o endpoint GET armazena em memória o último texto recebido; o POST usa o texto enviado no body ou, se não houver body, usa o último texto armazenado pelo GET.
 
@@ -20,6 +22,7 @@ Observação: o endpoint GET armazena em memória o último texto recebido; o PO
 
 -   Visão Geral
 -   Requisitos
+-   Estrutura do Projeto
 -   Configuração
 -   Execução Local (sem Docker)
 -   Execução com Docker
@@ -41,33 +44,83 @@ O sistema funciona da seguinte forma:
 
 A API exige autenticação via chave (`API_KEY`) enviada no header
 `senha`.
-Observação: Para fins do teste, **a senha está localizada no .env dentro da pasta app/**. Mas normalmente em projetos reais o .env não é disponibilizado no **Git**.
 
 ------------------------------------------------------------------------
 
 # Requisitos
 
--   Python 3.10+ (recomendado 3.11)
+Ambiente mínimo recomendado:
+
+-   Git (para clonar o repositório)
+-   Python 3.11 (ou 3.10 compatível)
 -   pip
 -   Ambiente virtual (venv)
 -   Docker (opcional)
--   Ollama em execução local (ou endpoint LLM compatível)
+-   Ollama em execução local
 
+Sistema testado: Windows (WSL/Ubuntu-22.04).
+
+Observação: Se usar o LLM local: Ollama (ou outro endpoint compatível). Por padrão o cliente espera http://localhost:11434/api/generate.
+------------------------------------------------------------------------
+
+# Estrutura do Projeto
+
+EXTRATOR-INCIDENTE/
+│
+├── app/
+│   ├── api/
+│   │   └── incidente_endpoints.py
+│   │
+│   ├── modelo/
+│   │   ├── llm_client.py
+│   │   └── prompt_llm.py
+│   │
+│   ├── pre_processamento/
+│   │   ├── processamento.py
+│   │   └── schema.py
+│   │
+│   ├── service/
+│   │   └── incidente_service.py
+│   │
+│   ├── .env
+│   ├── main.py
+│   └── requirements.txt
+│
+├── .dockerignore
+├── .gitignore
+├── Dockerfile
+└── README.md
 ------------------------------------------------------------------------
 
 # Configuração
 
-Crie um arquivo `.env` na pasta do projeto com o seguinte conteúdo:
+Crie um arquivo `.env` na pasta app/ do projeto com o seguinte conteúdo:
 
-API_KEY=sua_chave_segura_aqui
-OLLAMA_URL=http://localhost:11434/api/generate
+API_KEY=12A3
+Observação: **Para fins do teste**, a senha foi adicionada acima.
 
 Descrição das variáveis:
 
 -   `API_KEY`: chave obrigatória para autenticar chamadas à API.
--   `OLLAMA_URL`: endpoint do modelo LLM local.
 
 Nunca versionar o arquivo `.env`.
+
+------------------------------------------------------------------------
+
+# Instalação do modelo LLM Ollama (llama3.2:1b)
+
+Também será necessário instalar o modelo LLM (llama3.2:1b) que é utilizado neste projeto. Esse modelo funciona localmente.
+
+No Terminal:
+
+- Instalar o Ollama
+curl -fsSL https://ollama.com/install.sh | sh
+
+- Iniciar o serviço Ollama
+ollama serve
+
+- Baixar o modelo utilizado neste projeto
+ollama pull llama3.2:1b
 
 ------------------------------------------------------------------------
 
@@ -75,22 +128,27 @@ Nunca versionar o arquivo `.env`.
 
 1.  Criar ambiente virtual:
 
-Linux/macOS: python3.11 -m venv .venv source .venv/bin/activate
+Observação: Certificar que está em ambiente Linux, se for Windows, WSL:Ubuntu-22.04.
 
-Windows (PowerShell): python -m venv .venv
-..venv`\Scripts`{=tex}`\Activate`{=tex}.ps1
+Terminal/WSL:Ubuntu-22.04: python -m venv extrator-incidente
+
+Apois a instalação, ative o ambiente:
+
+Terminal/WSL:Ubuntu-22.04: source bin/activate
 
 2.  Instalar dependências:
 
-pip install --upgrade pip pip install -r requirements.txt
+pip install -r requirements.txt
 
 3.  Executar aplicação:
 
-uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+Terminal/WSL:Ubuntu-22.04: python main.py
 
-Acesse:
+Observação: É necessário estar na pasta app/
 
-http://127.0.0.1:8000/docs
+Acesse para ver os Endpoints da API:
+
+http://localhost:8000/docs
 
 ------------------------------------------------------------------------
 
