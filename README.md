@@ -91,7 +91,8 @@ Nunca versionar o arquivo `.env`.
 
 # Estrutura do Projeto
 
-<pre> ```text EXTRATOR-INCIDENTE/
+```text 
+EXTRATOR-INCIDENTE/
 │
 ├── app/
 │   ├── api/
@@ -115,7 +116,8 @@ Nunca versionar o arquivo `.env`.
 ├── .dockerignore
 ├── .gitignore
 ├── Dockerfile
-└── README.md ``` </pre>
+└── README.md 
+```
 
 ------------------------------------------------------------------------
 
